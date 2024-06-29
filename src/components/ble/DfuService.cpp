@@ -31,13 +31,9 @@ void TimeoutTimerCallback(TimerHandle_t xTimer) {
 
 DfuService::DfuService(Pinetime::System::SystemTask& systemTask,
                        Pinetime::Controllers::Ble& bleController,
-                       Pinetime::Drivers::SpiNorFlash& spiNorFlash,
-                       Pinetime::Controllers::Settings& settingsController,
-                       Pinetime::Controllers::NotificationManager& controllerNotificationManager)
+                       Pinetime::Drivers::SpiNorFlash& spiNorFlash)
   : systemTask {systemTask},
     bleController {bleController},
-    settingsController {settingsController},
-    controllerNotificationManager {controllerNotificationManager},
     dfuImage {spiNorFlash},
     characteristicDefinition {{
                                 .uuid = &packetCharacteristicUuid.u,
@@ -85,12 +81,12 @@ void DfuService::Init() {
 
 int DfuService::OnServiceData(uint16_t connectionHandle, uint16_t attributeHandle, ble_gatt_access_ctxt* context) {
 #ifndef PINETIME_IS_RECOVERY
-  if (__builtin_expect(settingsController.GetDfuAndFsMode() == Pinetime::Controllers::Settings::DfuAndFsMode::Disabled, 0)) {
+  if (__builtin_expect(systemTask.GetSettings().GetDfuAndFsMode() == Pinetime::Controllers::Settings::DfuAndFsMode::Disabled, 0)) {
     Pinetime::Controllers::NotificationManager::Notification notif;
     memcpy(notif.message.data(), denyAlert, denyAlertLength);
     notif.size = denyAlertLength;
     notif.category = Pinetime::Controllers::NotificationManager::Categories::SimpleAlert;
-    controllerNotificationManager.Push(std::move(notif));
+    systemTask.GetNotificationManager().Push(std::move(notif));
     systemTask.PushMessage(Pinetime::System::Messages::OnNewNotification);
     return BLE_ATT_ERR_INSUFFICIENT_RES;
   }

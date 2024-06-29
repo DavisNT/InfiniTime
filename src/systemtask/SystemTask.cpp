@@ -80,8 +80,7 @@ SystemTask::SystemTask(Drivers::SpiMaster& spi,
                      spiNorFlash,
                      heartRateController,
                      motionController,
-                     fs,
-                     settingsController) {
+                     fs) {
 }
 
 void SystemTask::Start() {

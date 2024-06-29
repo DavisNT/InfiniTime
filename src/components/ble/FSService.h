@@ -19,10 +19,7 @@ namespace Pinetime {
 
     class FSService {
     public:
-      FSService(Pinetime::System::SystemTask& systemTask,
-                Pinetime::Controllers::FS& fs,
-                Pinetime::Controllers::Settings& settingsController,
-                Pinetime::Controllers::NotificationManager& notificationManager);
+      FSService(Pinetime::System::SystemTask& systemTask, Pinetime::Controllers::FS& fs);
       void Init();
 
       int OnFSServiceRequested(uint16_t connectionHandle, uint16_t attributeHandle, ble_gatt_access_ctxt* context);
@@ -31,8 +28,6 @@ namespace Pinetime {
     private:
       Pinetime::System::SystemTask& systemTask;
       Pinetime::Controllers::FS& fs;
-      Pinetime::Controllers::Settings& settingsController;
-      Pinetime::Controllers::NotificationManager& notificationManager;
 
       static constexpr const char* denyAlert = "InfiniTime\0File access attempted, but disabled.";
       static constexpr const uint8_t denyAlertLength = 48;

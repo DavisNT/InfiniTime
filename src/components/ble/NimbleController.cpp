@@ -30,14 +30,13 @@ NimbleController::NimbleController(Pinetime::System::SystemTask& systemTask,
                                    Pinetime::Drivers::SpiNorFlash& spiNorFlash,
                                    HeartRateController& heartRateController,
                                    MotionController& motionController,
-                                   FS& fs,
-                                   Settings& settingsController)
+                                   FS& fs)
   : systemTask {systemTask},
     bleController {bleController},
     dateTimeController {dateTimeController},
     spiNorFlash {spiNorFlash},
     fs {fs},
-    dfuService {systemTask, bleController, spiNorFlash, settingsController, notificationManager},
+    dfuService {systemTask, bleController, spiNorFlash},
 
     currentTimeClient {dateTimeController},
     anService {systemTask, notificationManager},
@@ -49,7 +48,7 @@ NimbleController::NimbleController(Pinetime::System::SystemTask& systemTask,
     immediateAlertService {systemTask, notificationManager},
     heartRateService {*this, heartRateController},
     motionService {*this, motionController},
-    fsService {systemTask, fs, settingsController, notificationManager},
+    fsService {systemTask, fs},
     serviceDiscovery({&currentTimeClient, &alertNotificationClient}) {
 }
 

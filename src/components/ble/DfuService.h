@@ -27,9 +27,7 @@ namespace Pinetime {
     public:
       DfuService(Pinetime::System::SystemTask& systemTask,
                  Pinetime::Controllers::Ble& bleController,
-                 Pinetime::Drivers::SpiNorFlash& spiNorFlash,
-                 Pinetime::Controllers::Settings& settingsController,
-                 Pinetime::Controllers::NotificationManager& controllerNotificationManager);
+                 Pinetime::Drivers::SpiNorFlash& spiNorFlash);
       void Init();
       int OnServiceData(uint16_t connectionHandle, uint16_t attributeHandle, ble_gatt_access_ctxt* context);
       void OnTimeout();
@@ -84,8 +82,6 @@ namespace Pinetime {
     private:
       Pinetime::System::SystemTask& systemTask;
       Pinetime::Controllers::Ble& bleController;
-      Pinetime::Controllers::Settings& settingsController;
-      Pinetime::Controllers::NotificationManager& controllerNotificationManager;
       DfuImage dfuImage;
       NotificationManager notificationManager;
 
