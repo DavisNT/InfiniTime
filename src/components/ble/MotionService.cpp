@@ -51,6 +51,8 @@ MotionService::MotionService(NimbleController& nimble, Controllers::MotionContro
 }
 
 void MotionService::Init() {
+  nimble.AddCharacteristicSecurity(serviceDefinition);
+
   int res = 0;
   res = ble_gatts_count_cfg(serviceDefinition);
   ASSERT(res == 0);
